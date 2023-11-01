@@ -1,0 +1,13 @@
+prog {
+	n (int);
+	read(n);
+	a array[n] (int), i (int), sum (int) = 0;
+
+	while i <= n {
+		read(a[i]);
+		sum = sum + a[i];
+	}
+	
+	print(sum);
+}
+		
