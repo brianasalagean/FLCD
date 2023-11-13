@@ -1,0 +1,50 @@
+https://github.com/brianasalagean/FLCD/tree/main/Lab4
+
+Documentation:
+
+FA - implements operations on a finite automaton read from a file, contains states, initial state, final states, alphabet and transitions.
+
+methods:
+- readFromFile(): reads line by line from fa.in the finite automaton and saves all information in their corresponding lists/variables.
+- printStates(): prints the list of states
+- printAlphabet(): prints the list containing the alphabet
+- printInitialState(): prints the initial state stored in a String variable
+- printFinalStates(): prints the list of final states
+- printTransitions(): prints the list of transitions
+- checkIfAccepted(sequence: String) -> boolean: checks if a given sequence is accepted by a FA
+- getNextAccepted(sequence: String) -> String: returns the substring of a given sequence that is accepted by the FA
+
+Transition - represents a transition using attributes from, to and label
+
+SymbolTable - contains one HashTable and is used for storing both identifiers and constants.
+Approach for the HashTable: list of lists, to be able to store more values that hash to the same position.
+Elements in the HashTable are of type String.
+
+methods:
+- hash(String key) - computes and returns the hash value of a key, hash value: the sum of the ascii code of each character from the key modulo the size of the HashTable
+- add(String key) - adds a key to the HashTable, returns a Pair (generic class that receives 2 parameters) containing the hash value and the key, throws exception if the key already exists in the HashTable
+- contains(String key) - checks if a key exists in the HashTable, return a boolean (true if exists, false otherwise)
+- getPosition(String key) - if the key exists in the HashTable, the method returns a Pair containing the hash value and the index of the key in the list from that hash value, otherwise an exception is throws
+- toString - nicer display
+
+add, contains, getPosition, toString methods have the same purpose for both HashTable and SymbolTable classes, hash is only implemented in HashTable class
+
+
+Scanner - is responsible with building the program internal form and symbol table, while checking if the program is lexically correct
+PIF (Program Internal Form) - list composed of pairs of the form string (identifier, "string const", "int const") and position (pair) in the symbol table or (-1,-1) for tokens.
+Scanner also has fields for the program string, symbol table and current index and line
+
+Operations:
+
+- setProgram(program: String) - setter for program
+- readTokens() - read tokens from token.txt and separate into tokens and reservedWords (lists)
+- skipSpaces() - skip white spaces between tokens
+- skipComments() - skip comments between tokens
+- getPositionFromSymbolTable(token: String): Pair<Integer, Integer> - searches for a token in the symbol table and returns its position if found, otherwise return (-1,-1)
+- validIdentifier(identifier: String, programSubstring: String): Boolean - checks if an identifier is valid by checking that it is not a reserved word and matches the identifier regex
+- treatIdentifierToken(): Boolean - treats the case in which we have an identifier in the program; checks if it is valid using validIdentifier and a regex (can contain letters, '_', and digits, but must start with letter or '_'), if it is valid, it is added to ST (if  it wasn't already added) and to PIF: returns true if that token is an identifier, false otherwise 
+- treatStringConstantToken(): Boolean - checks if the token is a string constant using a regex, adds it to the ST (if it wasn't already added) and to PIF: returns true is the token is a string constant, false otherwise
+- treatIntConstantToken(): Boolean - checks if the token is an int constant using a regex, adds it to the ST (if it wasn't already added) and to PIF: returns true is the token is an int constant, false otherwise 
+- treatTokenFromList(): Boolean - checks for other tokens (like '+', '-', '{' or reserved words) parsing the list of tokens and the list of reserved words; adds it to PIF with position (-1, -1): returns true if the token is in one of these lists, false otherwise
+- getNextToken(): skips the spaces and comments before a token, and if the program string has not been parsed completely, it checks if the token is in one of the categories: identifier, string constant, int constant, other token, by calling the "treat" methods described above, if the token isn't in any of these categories, it is invalid and an exception is thrown
+- scan(filename: String) - reads the program from file and sets it, parses the program string using the getNextToken method in a while loop, writes the results in the designated PIF.out and ST.out files

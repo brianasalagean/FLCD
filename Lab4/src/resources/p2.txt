@@ -1,0 +1,12 @@
+prog {
+	a (int), b (int);
+	read(a);
+	read(b);
+	r (int) = a % b;
+	while b <> 0 {
+		a = b;
+		b = r;
+		r = a % b;
+	}
+	print(a);
+}

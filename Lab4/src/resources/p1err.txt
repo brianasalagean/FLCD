@@ -1,0 +1,13 @@
+prog {
+	a (int), 2b (int), c (int);
+	read(a); read(2b);  read(c);
+	min (int) = a;
+	if min > 2b {
+		min = 2b;
+	}
+	if min > c {
+		min = c;
+	}
+
+	prints(min);
+}
