@@ -1,0 +1,30 @@
+N = { program, declaration, type, typeTemp, cmpdstmt, stmtlist, stmt, stmtTemp, simplstmt, structstmt, ifstmt, tempIf, forstmt, forheader, whilestmt, assignstmt, arithmetic1, arithmetic2, multiply1, multiply2, expression, IndexedIdentifier, iostmt, condition, relation }
+E = { prog, number, array, string, {, }, ;, +, -, *, /, (, ), while, for, if, else, cin, cout, <<, >>, id, const, <, <=, is, dif, >=, >, eq }
+S = program
+P = {
+    program -> prog cmpdstmt,
+    declaration -> type id,
+    type -> string | number typeTemp,
+    typeTemp -> E | array [ const ],
+    cmpdstmt -> { stmtlist },
+    stmtlist -> stmt stmtTemp,
+    stmtTemp -> E | stmtlist,
+    stmt -> simplstmt ; | structstmt,
+    simplstmt -> assignstmt | iostmt | declaration,
+    structstmt -> cmpdstmt | ifstmt | whilestmt | forstmt,
+    ifstmt -> if condition stmt tempIf,
+    tempIf -> E | else stmt,
+    forstmt -> for forheader stmt,
+    forheader -> ( number assignstmt ; condition ; assignstmt ),
+    whilestmt -> while condition stmt,
+    assignstmt -> id eq expression,
+    expression -> arithmetic2 arithmetic1,
+    arithmetic1 -> + arithmetic2 arithmetic1 | - arithmetic2 arithmetic1 | E,
+    arithmetic2 -> multiply2 multiply1,
+    multiply1 -> * multiply2 multiply1 | / multiply2 multiply1 | E,
+    multiply2 -> ( expression ) | id | const,
+    IndexedIdentifier -> id [ const ],
+    iostmt -> cin >> id | cout << id,
+    condition -> ( id relation const ) | ( id relation expression ),
+    relation -> < | <= | is | dif | >= | >,
+}
